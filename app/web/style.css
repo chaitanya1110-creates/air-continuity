@@ -434,3 +434,100 @@ body {
 .tab-item.active .tab-icon svg {
     transform: scale(1.1);
 }
+
+/* Floating Incoming File Alert Banner (iOS Dynamic Style) */
+.incoming-alert-banner {
+    position: fixed;
+    top: 14px;
+    left: 16px;
+    right: 16px;
+    max-width: 448px;
+    margin: 0 auto;
+    background: rgba(30, 30, 34, 0.95);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(10, 132, 255, 0.4);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 999;
+    animation: slideDownAlert 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDownAlert {
+    from { transform: translateY(-70px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.alert-icon-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(10, 132, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.alert-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.alert-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ios-blue);
+    letter-spacing: -0.2px;
+}
+
+.alert-name {
+    font-size: 13px;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 1px;
+}
+
+.alert-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.alert-btn-save {
+    background: var(--ios-blue);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 14px;
+    display: inline-block;
+    transition: opacity 0.2s;
+}
+
+.alert-btn-save:active {
+    opacity: 0.8;
+}
+
+.alert-btn-dismiss {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

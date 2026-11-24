@@ -35,6 +35,83 @@ document.querySelectorAll(".tab-item").forEach(btn => {
     });
 });
 
+// Incoming File Banner & Alert Elements
+const incomingFileAlert = document.getElementById("incomingFileAlert");
+const alertFileName = document.getElementById("alertFileName");
+const alertDownloadBtn = document.getElementById("alertDownloadBtn");
+const alertDismissBtn = document.getElementById("alertDismissBtn");
+
+if (alertDismissBtn) {
+    alertDismissBtn.addEventListener("click", () => {
+        if (incomingFileAlert) incomingFileAlert.style.display = "none";
+    });
+}
+
+// Synthesize pleasant Apple-style chime using Web Audio API
+function playNotificationChime() {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.type = "sine";
+        // D5 (587.33 Hz) to A5 (880 Hz) two-tone chime
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.setValueAtTime(880.00, ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.25, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.45);
+    } catch (e) {
+        console.warn("Audio chime notice:", e);
+    }
+}
+
+// Request browser notifications permission on user tap
+function requestNotificationPermission() {
+    if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission().catch(() => {});
+    }
+}
+document.addEventListener("click", requestNotificationPermission, { once: true });
+
+// Show on-screen incoming file alert banner
+function showIncomingFileAlert(name, size, id) {
+    playNotificationChime();
+
+    // Haptic vibration on mobile
+    if (navigator.vibrate) {
+        try { navigator.vibrate([150, 80, 150]); } catch {}
+    }
+
+    if (incomingFileAlert && alertFileName && alertDownloadBtn) {
+        alertFileName.textContent = `${name} (${size || "Ready"})`;
+        alertDownloadBtn.href = id ? `/api/download/${id}` : "#";
+        incomingFileAlert.style.display = "flex";
+
+        // Auto-hide alert banner after 12 seconds
+        setTimeout(() => {
+            if (incomingFileAlert) incomingFileAlert.style.display = "none";
+        }, 12000);
+    }
+
+    // Native browser push notification if permitted
+    if ("Notification" in window && Notification.permission === "granted") {
+        try {
+            new Notification("📥 AirContinuity File Received", {
+                body: `${name} is ready to save on your iPhone.`,
+            });
+        } catch {}
+    }
+}
+
 // Setup WebSocket Connection
 function initWebSocket() {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
@@ -67,7 +144,10 @@ function initWebSocket() {
             if (data.type === "clipboard_update") {
                 currentPcClipboard = data.text;
                 pcClipboardPreview.textContent = data.text;
-            } else if (data.type === "file_received" || data.type === "file_ready") {
+            } else if (data.type === "file_ready") {
+                showIncomingFileAlert(data.name || "File from PC", data.size || "", data.id);
+                fetchPCFiles();
+            } else if (data.type === "file_received") {
                 fetchPCFiles();
             }
         } catch (e) {

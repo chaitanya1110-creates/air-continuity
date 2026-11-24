@@ -791,7 +791,7 @@ class MainWindow(ctk.CTk):
         sub_lbl.pack(anchor="w", padx=20, pady=(0, 14))
 
         action_row = ctk.CTkFrame(top_box, fg_color="transparent")
-        action_row.pack(anchor="w", padx=20, pady=(0, 16))
+        action_row.pack(anchor="w", padx=20, pady=(0, 10))
 
         btn_send = ctk.CTkButton(
             action_row,
@@ -808,6 +808,15 @@ class MainWindow(ctk.CTk):
             command=self.open_downloads_folder
         )
         btn_folder.pack(side="left")
+
+        # Status text for file transfer
+        self.transfer_feedback_lbl = ctk.CTkLabel(
+            top_box,
+            text="💡 Tip: Open the AirContinuity companion web page in iPhone Safari to drop and receive files.",
+            font=ctk.CTkFont(size=12),
+            text_color="#8E8E93"
+        )
+        self.transfer_feedback_lbl.pack(anchor="w", padx=20, pady=(0, 14))
 
         # Transfer List
         list_header = ctk.CTkLabel(frame, text="Recent Transfers", font=ctk.CTkFont(size=15, weight="bold"))
@@ -828,15 +837,42 @@ class MainWindow(ctk.CTk):
         paths = filedialog.askopenfilenames(title="Select files to share with iPhone")
         if not paths:
             return
+        
+        is_client_connected = len(self.mirror_server.active_sockets) > 0
         for p in paths:
             record = self.file_manager.queue_outgoing_file(p)
             if record:
                 self.add_transfer_card(record)
-                self.mirror_server.broadcast({"type": "file_ready", "name": record["name"]})
+                self.mirror_server.broadcast({
+                    "type": "file_ready",
+                    "id": record["id"],
+                    "name": record["name"],
+                    "size": record["size"]
+                })
+
+        if hasattr(self, "transfer_feedback_lbl"):
+            if is_client_connected:
+                self.transfer_feedback_lbl.configure(
+                    text="✅ File(s) sent! A download banner & chime have been sent to iPhone Safari.",
+                    text_color="#30D158"
+                )
+            else:
+                self.transfer_feedback_lbl.configure(
+                    text="⚠️ iPhone Safari is not connected! Scan QR code in 'Overview & Pair' to open and receive.",
+                    text_color="#FF9F0A"
+                )
 
     def add_transfer_card(self, item: Dict):
         if self.empty_transfers_lbl.winfo_exists():
             self.empty_transfers_lbl.pack_forget()
+
+        # Play chime on incoming file received from iPhone
+        if item.get("direction") == "incoming":
+            try:
+                import winsound
+                winsound.MessageBeep(winsound.MB_ICONASTERISK)
+            except Exception:
+                pass
 
         card = ctk.CTkFrame(self.transfer_scroll, corner_radius=10, fg_color="#1C1C1E")
         card.pack(fill="x", padx=10, pady=5)
