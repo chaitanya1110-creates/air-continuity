@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+
+# PyInstaller & Build artifacts
+build/
+dist/
+release/
+*.spec
+*.pkg
+payload.zip
+
+# Environment & Config local overrides
+*.tmp
+query
+ble_out.txt
+ble_err.txt
+
+# Editor & OS
+.vscode/
+.idea/
+Thumbs.db
+ehthumbs.db
+Desktop.ini

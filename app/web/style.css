@@ -1,0 +1,436 @@
+:root {
+    --ios-bg: #000000;
+    --card-bg: rgba(28, 28, 30, 0.75);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --ios-blue: #0A84FF;
+    --ios-green: #30D158;
+    --ios-orange: #FF9F0A;
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(235, 235, 245, 0.6);
+    --text-tertiary: rgba(235, 235, 245, 0.38);
+    --separator: rgba(84, 84, 88, 0.4);
+    --tab-bar-bg: rgba(22, 22, 24, 0.85);
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+}
+
+body {
+    background-color: var(--ios-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding-bottom: 90px;
+    overflow-x: hidden;
+}
+
+.ios-app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+/* Dynamic Island Capsule */
+.app-header {
+    text-align: center;
+    padding: 12px 0 20px 0;
+}
+
+.island-capsule {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(30, 30, 32, 0.9);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--card-border);
+    padding: 6px 16px;
+    border-radius: 30px;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 12px;
+}
+
+.capsule-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--ios-green);
+    box-shadow: 0 0 10px var(--ios-green);
+}
+
+.capsule-icon.offline {
+    background-color: #FF453A;
+    box-shadow: 0 0 10px #FF453A;
+}
+
+.capsule-text {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+
+.header-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #A1A1A6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Glass Cards */
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+}
+
+.card-icon-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mirror-icon {
+    background: linear-gradient(135deg, #0A84FF, #0040DD);
+    color: #FFF;
+}
+
+.airdrop-icon {
+    background: linear-gradient(135deg, #30D158, #0E8530);
+    color: #FFF;
+}
+
+.clip-icon {
+    background: linear-gradient(135deg, #FF9F0A, #D15A00);
+    color: #FFF;
+}
+
+.card-icon-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.card-subtext {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Mirror Status Indicator */
+.mirror-status-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px 0;
+}
+
+.status-ring {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--ios-blue);
+    position: relative;
+}
+
+.status-ring::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    border: 2px solid var(--ios-blue);
+    animation: ripple 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes ripple {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3.5); opacity: 0; }
+}
+
+#mirrorStatusLabel {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn:active {
+    transform: scale(0.97);
+    filter: brightness(0.9);
+}
+
+.btn-primary {
+    background-color: var(--ios-blue);
+    color: #FFFFFF;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.12);
+    color: #FFFFFF;
+}
+
+.btn-large {
+    width: 100%;
+    padding: 16px;
+    font-size: 17px;
+}
+
+.btn-full {
+    width: 100%;
+    padding: 13px;
+    font-size: 15px;
+}
+
+.hint-text {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+    margin-top: 14px;
+    line-height: 1.4;
+}
+
+/* AirDrop File Drop Zone */
+.drop-zone {
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    padding: 32px 16px;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.03);
+    transition: all 0.2s;
+}
+
+.drop-zone:active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--ios-blue);
+}
+
+.drop-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.drop-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.progress-container {
+    margin-top: 16px;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--ios-blue);
+    transition: width 0.2s;
+}
+
+#uploadProgressText {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Incoming Files List */
+.incoming-section {
+    margin-top: 24px;
+    border-top: 1px solid var(--separator);
+    padding-top: 16px;
+}
+
+.incoming-section h4 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+}
+
+.file-name {
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-size {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.empty-state {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 12px 0;
+}
+
+/* Universal Clipboard Area */
+.field-label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.clipboard-preview {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-size: 14px;
+    min-height: 60px;
+    max-height: 120px;
+    overflow-y: auto;
+    word-break: break-all;
+    margin-bottom: 10px;
+    user-select: text;
+}
+
+.input-area {
+    width: 100%;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    color: #FFF;
+    font-size: 14px;
+    resize: none;
+    margin-bottom: 10px;
+    user-select: text;
+}
+
+.input-area:focus {
+    outline: none;
+    border-color: var(--ios-blue);
+}
+
+/* Tabs */
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.25s ease;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Bottom Tab Bar */
+.bottom-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 75px;
+    background: var(--tab-bar-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 15px;
+    z-index: 100;
+}
+
+.tab-item {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 16px;
+    transition: color 0.2s;
+}
+
+.tab-item.active {
+    color: var(--ios-blue);
+}
+
+.tab-icon svg {
+    transition: transform 0.2s;
+}
+
+.tab-item.active .tab-icon svg {
+    transform: scale(1.1);
+}
